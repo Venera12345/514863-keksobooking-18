@@ -11,7 +11,7 @@ var AMOUNTGUESTSANDROOMS = [1, 2, 3, 4, 5, 6, 7];
 var TIMEARRIVED = ['12:00', '13:00', '14:00'];
 var TIMELEAVED = ['13:00', '14:00', '12:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
+var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var pinTemplateElement = document.querySelector('#pin').content;
 var pinElement = pinTemplateElement.querySelector('.map__pin');
 var mapPinsElement = document.querySelector('.map__pins');
@@ -74,7 +74,5 @@ for (var j = 0; j < AMOUNTOFFER; j++) {
   fragment.appendChild(createElementPin(j));
 }
 
-
-console.log(dateForRoom);
 mapPinsElement.appendChild(fragment);
 mapElement.classList.remove('map--faded');
