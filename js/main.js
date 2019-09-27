@@ -21,7 +21,7 @@ var getRandomInt = function (max) {
   return Math.floor(Math.random() * max);
 };
 var getRandomLocation = function (min, max) {
-  let rand = min + Math.random() * (max + 1 - min);
+  var rand = min + Math.random() * (max + 1 - min);
   return Math.floor(rand);
 };
 var createElementPin = function (number) {
