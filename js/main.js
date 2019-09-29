@@ -1,15 +1,16 @@
 'use strict';
-var HEIGHTMAP = 635;
-var WIDTHMAP = 1200;
-var WIDTHPIN = 50;
-var HEIGHTPIN = 70;
-var HEIGHTMAPHADER = 180;
-var AMOUNTOFFER = 8;
-var TYPEOFROOM = ['palace', 'flat', 'house', 'bungalo'];
-var COSTOFROOM = [10000, 5000, 20000, 3000, 15000, 12000];
-var AMOUNTGUESTSANDROOMS = [1, 2, 3, 4, 5, 6, 7];
-var TIMEARRIVED = ['12:00', '13:00', '14:00'];
-var TIMELEAVED = ['13:00', '14:00', '12:00'];
+var HEIGHT_MAP = 630;
+var WIDTH_MAP = 1200;
+var WIDTH_PIN = 50;
+var HEIGHT_MAP_HADER = 130;
+var AMOUNT_OFFER = 8;
+var TITLES = ['Раскошный дворец', 'Квартира в центре', 'Небольшое домик', 'Бунгало'];
+var DESCRIPTIONS = [ 'Раскошный дворец с прекрасными выдами в центре Токкио', 'Прекрасная квартира в центре с двумя спальнями и тремя туалетами', 'Небольшой домик на окраине города', 'Уютный бунгало с открытыми просторными помещениями'];
+var TYPE_OF_ROOM = ['palace', 'flat', 'house', 'bungalo'];
+var COST_OF_ROOM = [10000, 5000, 20000, 3000, 15000, 12000];
+var AMOUNT_GUESTS_AND_ROOMS = [1, 2, 3, 4, 5, 6, 7];
+var TIME_ARRIVED = ['12:00', '13:00', '14:00'];
+var TIME_LEAVED = ['13:00', '14:00', '12:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var pinTemplateElement = document.querySelector('#pin').content;
@@ -34,45 +35,39 @@ var createElementPin = function (number) {
   return element;
 };
 var dateForRoom = [];
-var createArrObject = function () {
-  var dateOfferLocationX = [];
-  var dateOfferLocationY = [];
-  for (var i = 0; i < AMOUNTOFFER; i++) {
-    var offerLocationX = getRandomLocation(WIDTHPIN, WIDTHMAP - WIDTHPIN) + 'px';
-    var offerLocationY = getRandomLocation(HEIGHTMAPHADER, HEIGHTMAP - HEIGHTPIN) + 'px';
-    dateOfferLocationX.push(offerLocationX);
-    dateOfferLocationY.push(offerLocationY);
+var createDateForRooms = function () {
+  for (var i = 0; i < AMOUNT_OFFER; i++) {
+    var dateRoom = getRandomInt(TYPE_OF_ROOM.length);
     var objectDate = {
       'author': {
         'avatar': 'img/avatars/user0' + (i + 1) + '.png'
       },
 
       'offer': {
-        'title': 'Прекрасная квартира в центре',
+        'title': TITLES[dateRoom],
         'address': location.x + ', ' + location.y,
-        'price': COSTOFROOM[getRandomInt(COSTOFROOM.length)],
-        'type': TYPEOFROOM[getRandomInt(TYPEOFROOM.length)],
-        'rooms': AMOUNTGUESTSANDROOMS[getRandomInt(AMOUNTGUESTSANDROOMS.length)],
-        'guests': AMOUNTGUESTSANDROOMS[getRandomInt(AMOUNTGUESTSANDROOMS.length)],
-        'checkin': TIMEARRIVED[getRandomInt(TIMEARRIVED.length)],
-        'checkout': TIMELEAVED[getRandomInt(TIMELEAVED.length)],
+        'price': COST_OF_ROOM[getRandomInt(COST_OF_ROOM.length)],
+        'type': TYPE_OF_ROOM[dateRoom],
+        'rooms': AMOUNT_GUESTS_AND_ROOMS[getRandomInt(AMOUNT_GUESTS_AND_ROOMS.length)],
+        'guests': AMOUNT_GUESTS_AND_ROOMS[getRandomInt(AMOUNT_GUESTS_AND_ROOMS.length)],
+        'checkin': TIME_ARRIVED[getRandomInt(TIME_ARRIVED.length)],
+        'checkout': TIME_LEAVED[getRandomInt(TIME_LEAVED.length)],
         'features': FEATURES.slice(getRandomInt(FEATURES.length - 1)),
-        'description': 'Прекрасная квартира в центре с двумя спальнями и тремя туалетами',
+        'description': DESCRIPTIONS[dateRoom],
         'photos': PHOTOS
       },
 
       'location': {
-        'x': dateOfferLocationX[i],
-        'y': dateOfferLocationY[i]
+        'x': getRandomLocation(WIDTH_PIN, WIDTH_MAP - WIDTH_PIN) + 'px',
+        'y': getRandomLocation(HEIGHT_MAP_HADER, HEIGHT_MAP) + 'px'
       }
     };
     dateForRoom.push(objectDate);
   }
 };
-createArrObject();
-for (var j = 0; j < AMOUNTOFFER; j++) {
+createDateForRooms();
+for (var j = 0; j < AMOUNT_OFFER; j++) {
   fragment.appendChild(createElementPin(j));
 }
-
 mapPinsElement.appendChild(fragment);
 mapElement.classList.remove('map--faded');
