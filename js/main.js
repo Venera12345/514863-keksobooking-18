@@ -28,7 +28,7 @@ var getRandomLocation = function (min, max) {
 };
 var createElementPin = function (number) {
   var element = pinElement.cloneNode(true);
-  element.style.left = dateForRoom[number].location.x - WIDTH_PIN/2 + 'px';
+  element.style.left = dateForRoom[number].location.x - WIDTH_PIN / 2 + 'px';
   element.style.top = dateForRoom[number].location.y - HEIGHT_PIN + 'px';
   var imgElement = element.querySelector('img');
   imgElement.src = dateForRoom[number].author.avatar;
