@@ -2,6 +2,7 @@
 var HEIGHT_MAP = 630;
 var WIDTH_MAP = 1200;
 var WIDTH_PIN = 50;
+var HEIGHT_PIN = 70;
 var HEIGHT_MAP_HADER = 130;
 var AMOUNT_OFFER = 8;
 var TITLES = ['Раскошный дворец', 'Квартира в центре', 'Небольшое домик', 'Бунгало'];
@@ -27,8 +28,8 @@ var getRandomLocation = function (min, max) {
 };
 var createElementPin = function (number) {
   var element = pinElement.cloneNode(true);
-  element.style.left = dateForRoom[number].location.x;
-  element.style.top = dateForRoom[number].location.y;
+  element.style.left = dateForRoom[number].location.x - WIDTH_PIN/2 + 'px';
+  element.style.top = dateForRoom[number].location.y - HEIGHT_PIN + 'px';
   var imgElement = element.querySelector('img');
   imgElement.src = dateForRoom[number].author.avatar;
   imgElement.alt = dateForRoom[number].offer.title;
@@ -58,8 +59,8 @@ var createDateForRooms = function () {
       },
 
       'location': {
-        'x': getRandomLocation(WIDTH_PIN, WIDTH_MAP - WIDTH_PIN) + 'px',
-        'y': getRandomLocation(HEIGHT_MAP_HADER, HEIGHT_MAP) + 'px'
+        'x': getRandomInt(WIDTH_MAP),
+        'y': getRandomLocation(HEIGHT_MAP_HADER, HEIGHT_MAP)
       }
     };
     dateForRoom.push(objectDate);
