@@ -18,7 +18,10 @@ var pinTemplateElement = document.querySelector('#pin').content;
 var pinElement = pinTemplateElement.querySelector('.map__pin');
 var mapPinsElement = document.querySelector('.map__pins');
 var mapElement = document.querySelector('.map');
+var cardTemplateElement = document.querySelector('#card').content;
+var cardElement = cardTemplateElement.querySelector('.map__card');
 var fragment = document.createDocumentFragment();
+var fragmentCard = document.createDocumentFragment();
 var getRandomInt = function (max) {
   return Math.floor(Math.random() * max);
 };
@@ -35,6 +38,65 @@ var createElementPin = function (number) {
   imgElement.alt = dateForRoom[number].offer.title;
   return element;
 };
+var createElementCard = function (num) {
+  var element = cardElement.cloneNode(true);
+  var imgElement = element.querySelector('.popup__avatar');
+  var addressElement = element.querySelector('.popup__text--address');
+  var titleElement = element.querySelector('.popup__title');
+  var priceElement = element.querySelector('.popup__text--price');
+  var typeElement = element.querySelector('.popup__type');
+  var textAmountRoomElement = element.querySelector('.popup__text--capacity');
+  var textTimeElement = element.querySelector('.popup__text--time');
+  var descriptionElement = element.querySelector('.popup__description');
+  var photosElement = element.querySelector('.popup__photos');
+  var photoElement = photosElement.querySelector('.popup__photo');
+  var featuresElement = element.querySelector('.popup__features');
+  var featureElement = featuresElement.querySelectorAll('.popup__feature');
+  var createPhoto = function () {
+    for (var j = 1; j < PHOTOS.length; j++) {
+      var photo = photoElement.cloneNode(true);
+      photo.src = PHOTOS[j];
+      photosElement.appendChild(photo);
+    }
+  };
+  var sortFeatureElement = function () {
+    for (var k = dateForRoom[num].offer.features.length; k < FEATURES.length; k++) {
+      featureElement[k].style.display = 'none';
+    }
+  }
+  var translateType = function (type) {
+    var nameType;
+    switch (type) {
+      case ('house'):
+        nameType = 'Дом';
+        break;
+      case ('flat'):
+        nameType = 'Квартира';
+        break;
+      case ('palace'):
+        nameType = 'Дворец';
+        break;
+      case ('bungalo'):
+        nameType = 'Бунгало';
+        break;
+    }
+    return nameType;
+  }
+  imgElement.src = dateForRoom[num].author.avatar;
+  imgElement.alt = dateForRoom[num].offer.title;
+  addressElement.textContent = dateForRoom[num].offer.address();
+  titleElement.textContent = dateForRoom[num].offer.title;
+  priceElement.innerHTML = dateForRoom[num].offer.price + '&#x20bd;<span>/ночь</span>';
+  typeElement.textContent = translateType(dateForRoom[num].offer.type);
+  textAmountRoomElement.textContent = dateForRoom[num].offer.rooms + ' комнаты для ' + dateForRoom[num].offer.guests + ' гостей';
+  textTimeElement.textContent = 'Заезд после' + dateForRoom[num].offer.checkin + ', выезд до ' + dateForRoom[num].offer.checkout;
+  descriptionElement.textContent = dateForRoom[num].offer.description;
+
+  photoElement.src = PHOTOS[0];
+  createPhoto();
+  sortFeatureElement();
+  return element;
+};
 var dateForRoom = [];
 var createDateForRooms = function () {
   for (var i = 0; i < AMOUNT_OFFER; i++) {
@@ -46,7 +108,9 @@ var createDateForRooms = function () {
 
       'offer': {
         'title': TITLES[dateRoom],
-        'address': location.x + ', ' + location.y,
+        address: function () {
+          return objectDate.location.x + ' ,' + objectDate.location.y;
+        },
         'price': COST_OF_ROOM[getRandomInt(COST_OF_ROOM.length)],
         'type': TYPE_OF_ROOM[dateRoom],
         'rooms': AMOUNT_GUESTS_AND_ROOMS[getRandomInt(AMOUNT_GUESTS_AND_ROOMS.length)],
@@ -67,6 +131,8 @@ var createDateForRooms = function () {
   }
 };
 createDateForRooms();
+fragmentCard.appendChild(createElementCard(0));
+mapElement.appendChild(fragmentCard);
 for (var j = 0; j < AMOUNT_OFFER; j++) {
   fragment.appendChild(createElementPin(j));
 }
