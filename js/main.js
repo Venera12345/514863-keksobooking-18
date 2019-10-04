@@ -63,7 +63,7 @@ var createElementCard = function (num) {
     for (var k = dateForRoom[num].offer.features.length; k < FEATURES.length; k++) {
       featureElement[k].style.display = 'none';
     }
-  }
+  };
   var translateType = function (type) {
     var nameType;
     switch (type) {
@@ -81,7 +81,7 @@ var createElementCard = function (num) {
         break;
     }
     return nameType;
-  }
+  };
   imgElement.src = dateForRoom[num].author.avatar;
   imgElement.alt = dateForRoom[num].offer.title;
   addressElement.textContent = dateForRoom[num].offer.address();
@@ -108,7 +108,7 @@ var createDateForRooms = function () {
 
       'offer': {
         'title': TITLES[dateRoom],
-        address: function () {
+        'address': function () {
           return objectDate.location.x + ' ,' + objectDate.location.y;
         },
         'price': COST_OF_ROOM[getRandomInt(COST_OF_ROOM.length)],
