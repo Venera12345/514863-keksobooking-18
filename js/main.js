@@ -39,9 +39,9 @@ var createElementPin = function (number) {
 };
 var sortFeatureElement = function (element, arr, index) {
   for (var k = arr[index].offer.features.length; k < FEATURES.length; k++) {
-    element[k].style.display = 'none'
-    return element[k];
+    element[k].style.display = 'none';
   }
+  return element[k];
 };
 var translateType = function (type) {
   var nameType;
