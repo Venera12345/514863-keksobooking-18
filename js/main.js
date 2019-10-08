@@ -18,8 +18,7 @@ var pinTemplateElement = document.querySelector('#pin').content;
 var pinElement = pinTemplateElement.querySelector('.map__pin');
 var mapPinsElement = document.querySelector('.map__pins');
 var mapElement = document.querySelector('.map');
-var cardTemplateElement = document.querySelector('#card').content;
-var cardElement = cardTemplateElement.querySelector('.map__card');
+var cardTemplateElement = document.querySelector('#card').content.querySelector('.map__card');
 var fragment = document.createDocumentFragment();
 var fragmentCard = document.createDocumentFragment();
 var getRandomInt = function (max) {
@@ -38,63 +37,51 @@ var createElementPin = function (number) {
   imgElement.alt = dateForRoom[number].offer.title;
   return element;
 };
-var createElementCard = function (num) {
-  var element = cardElement.cloneNode(true);
-  var imgElement = element.querySelector('.popup__avatar');
-  var addressElement = element.querySelector('.popup__text--address');
-  var titleElement = element.querySelector('.popup__title');
-  var priceElement = element.querySelector('.popup__text--price');
-  var typeElement = element.querySelector('.popup__type');
-  var textAmountRoomElement = element.querySelector('.popup__text--capacity');
-  var textTimeElement = element.querySelector('.popup__text--time');
-  var descriptionElement = element.querySelector('.popup__description');
-  var photosElement = element.querySelector('.popup__photos');
-  var photoElement = photosElement.querySelector('.popup__photo');
-  var featuresElement = element.querySelector('.popup__features');
-  var featureElement = featuresElement.querySelectorAll('.popup__feature');
+var sortFeatureElement = function (element, arr, index) {
+  for (var k = arr[index].offer.features.length; k < FEATURES.length; k++) {
+    return element[k].style.display = 'none';
+  }
+};
+var translateType = function (type) {
+  var nameType;
+  switch (type) {
+    case ('house'):
+      nameType = 'Дом';
+      break;
+    case ('flat'):
+      nameType = 'Квартира';
+      break;
+    case ('palace'):
+      nameType = 'Дворец';
+      break;
+    case ('bungalo'):
+      nameType = 'Бунгало';
+      break;
+  }
+  return nameType;
+};
+var createElementCard = function (arr, num) {
+  var element = cardTemplateElement.cloneNode(true);
+  var featuresElement = element.querySelectorAll('.popup__feature');
+  element.querySelector('.popup__avatar').src = arr[num].author.avatar;
+  element.querySelector('.popup__avatar').alt = arr[num].offer.title;
+  element.querySelector('.popup__text--address').textContent = arr[num].offer.address();
+  element.querySelector('.popup__title').textContent = arr[num].offer.title;
+  element.querySelector('.popup__text--price').innerHTML = arr[num].offer.price + '&#x20bd;<span>/ночь</span>';
+  element.querySelector('.popup__type').textContent = translateType(arr[num].offer.type);
+  element.querySelector('.popup__text--capacity').textContent = arr[num].offer.rooms + ' комнаты для ' + arr[num].offer.guests + ' гостей';
+  element.querySelector('.popup__text--time').textContent = 'Заезд после' + arr[num].offer.checkin + ', выезд до ' + arr[num].offer.checkout;
+  element.querySelector('.popup__description').textContent = arr[num].offer.description;
+  element.querySelector('.popup__photo').src = PHOTOS[0];
   var createPhoto = function () {
     for (var j = 1; j < PHOTOS.length; j++) {
-      var photo = photoElement.cloneNode(true);
+      var photo = element.querySelector('.popup__photo').cloneNode(true);
       photo.src = PHOTOS[j];
-      photosElement.appendChild(photo);
+      element.querySelector('.popup__photos').appendChild(photo);
     }
   };
-  var sortFeatureElement = function () {
-    for (var k = dateForRoom[num].offer.features.length; k < FEATURES.length; k++) {
-      featureElement[k].style.display = 'none';
-    }
-  };
-  var translateType = function (type) {
-    var nameType;
-    switch (type) {
-      case ('house'):
-        nameType = 'Дом';
-        break;
-      case ('flat'):
-        nameType = 'Квартира';
-        break;
-      case ('palace'):
-        nameType = 'Дворец';
-        break;
-      case ('bungalo'):
-        nameType = 'Бунгало';
-        break;
-    }
-    return nameType;
-  };
-  imgElement.src = dateForRoom[num].author.avatar;
-  imgElement.alt = dateForRoom[num].offer.title;
-  addressElement.textContent = dateForRoom[num].offer.address();
-  titleElement.textContent = dateForRoom[num].offer.title;
-  priceElement.innerHTML = dateForRoom[num].offer.price + '&#x20bd;<span>/ночь</span>';
-  typeElement.textContent = translateType(dateForRoom[num].offer.type);
-  textAmountRoomElement.textContent = dateForRoom[num].offer.rooms + ' комнаты для ' + dateForRoom[num].offer.guests + ' гостей';
-  textTimeElement.textContent = 'Заезд после' + dateForRoom[num].offer.checkin + ', выезд до ' + dateForRoom[num].offer.checkout;
-  descriptionElement.textContent = dateForRoom[num].offer.description;
-
-  photoElement.src = PHOTOS[0];
   createPhoto();
-  sortFeatureElement();
+  sortFeatureElement(featuresElement, arr, num);
   return element;
 };
 var dateForRoom = [];
@@ -102,36 +89,36 @@ var createDateForRooms = function () {
   for (var i = 0; i < AMOUNT_OFFER; i++) {
     var dateRoom = getRandomInt(TYPE_OF_ROOM.length);
     var objectDate = {
-      'author': {
-        'avatar': 'img/avatars/user0' + (i + 1) + '.png'
+      author: {
+        avatar: 'img/avatars/user0' + (i + 1) + '.png'
       },
 
-      'offer': {
-        'title': TITLES[dateRoom],
-        'address': function () {
+      offer: {
+        title: TITLES[dateRoom],
+        address: function () {
           return objectDate.location.x + ' ,' + objectDate.location.y;
         },
-        'price': COST_OF_ROOM[getRandomInt(COST_OF_ROOM.length)],
-        'type': TYPE_OF_ROOM[dateRoom],
-        'rooms': AMOUNT_GUESTS_AND_ROOMS[getRandomInt(AMOUNT_GUESTS_AND_ROOMS.length)],
-        'guests': AMOUNT_GUESTS_AND_ROOMS[getRandomInt(AMOUNT_GUESTS_AND_ROOMS.length)],
-        'checkin': TIME_ARRIVED[getRandomInt(TIME_ARRIVED.length)],
-        'checkout': TIME_LEAVED[getRandomInt(TIME_LEAVED.length)],
-        'features': FEATURES.slice(getRandomInt(FEATURES.length - 1)),
-        'description': DESCRIPTIONS[dateRoom],
-        'photos': PHOTOS
+        price: COST_OF_ROOM[getRandomInt(COST_OF_ROOM.length)],
+        type: TYPE_OF_ROOM[dateRoom],
+        rooms: AMOUNT_GUESTS_AND_ROOMS[getRandomInt(AMOUNT_GUESTS_AND_ROOMS.length)],
+        guests: AMOUNT_GUESTS_AND_ROOMS[getRandomInt(AMOUNT_GUESTS_AND_ROOMS.length)],
+        checkin: TIME_ARRIVED[getRandomInt(TIME_ARRIVED.length)],
+        checkout: TIME_LEAVED[getRandomInt(TIME_LEAVED.length)],
+        features: FEATURES.slice(getRandomInt(FEATURES.length - 1)),
+        description: DESCRIPTIONS[dateRoom],
+        photos: PHOTOS
       },
 
-      'location': {
-        'x': getRandomInt(WIDTH_MAP),
-        'y': getRandomLocation(HEIGHT_MAP_HADER, HEIGHT_MAP)
+      location: {
+        x: getRandomInt(WIDTH_MAP),
+        y: getRandomLocation(HEIGHT_MAP_HADER, HEIGHT_MAP)
       }
     };
     dateForRoom.push(objectDate);
   }
 };
 createDateForRooms();
-fragmentCard.appendChild(createElementCard(0));
+fragmentCard.appendChild(createElementCard(dateForRoom, 0));
 mapElement.appendChild(fragmentCard);
 for (var j = 0; j < AMOUNT_OFFER; j++) {
   fragment.appendChild(createElementPin(j));
