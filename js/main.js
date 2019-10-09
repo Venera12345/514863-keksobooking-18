@@ -141,33 +141,33 @@ var transitActivState = function () {
   mapElement.classList.remove('map--faded');
   [].forEach.call(mapFilterElements, function (item) {
     item.disabled = false;
-  })
+  });
   mapFeaturesFilterElement.disabled = false;
   adFormElement.classList.remove('ad-form--disabled');
   adFormHeaderInputElement.disabled = false;
   [].forEach.call(adFormElements, function (item) {
     item.disabled = false;
-  })
+  });
 };
 
 mapPinMainElement.addEventListener('mousedown', function () {
   transitActivState();
   inputAddressElement.value = getLocation();
 
-})
+});
 mapPinMainElement.addEventListener('keydown', function (evt) {
   if (evt.keyCode === 13) {
     transitActivState();
   }
-})
+});
 var getLocation = function () {
   var locationX = +(mapPinMainElement.style.left).slice(0, -2) + PIN_MAIN_WIDTH / 2;
   var locationY = +(mapPinMainElement.style.top).slice(0, -2) + PIN_MAIN_HEIGHT;
 
   return Math.floor(locationX) + ', ' + Math.floor(locationY);
-}
+};
 
-var validityRoom = function () {
+var validityRoomAndCapacity = function () {
   switch (roomNumberElement.value) {
     case ('1'):
       [].forEach.call(capacityElement.options, function (item) {
@@ -202,6 +202,6 @@ var validityRoom = function () {
       break;
   }
   return capacityElement;
-}
+};
 roomNumberElement.addEventListener('input', validityRoomAndCapacity);
 validityRoomAndCapacity();
