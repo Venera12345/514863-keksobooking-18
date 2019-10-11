@@ -44,5 +44,5 @@
   createDateForRooms();
   window.data = {
     dateForRoom: dateForRoom
-  }
+  };
 })();

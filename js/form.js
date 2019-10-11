@@ -13,7 +13,7 @@
       item.disabled = status;
     });
     mapFeaturesFilterElement.disabled = status;
-  }
+  };
   var validityRoomAndCapacity = function () {
     switch (roomNumberElement.value) {
       case ('1'):
@@ -56,5 +56,5 @@
   initPage('disabled');
   window.form = {
     initPage: initPage
-  }
+  };
 })();

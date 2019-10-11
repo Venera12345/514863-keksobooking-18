@@ -46,5 +46,5 @@
     adFormHeader: adFormHeader,
     adFormElement: adFormElement,
     mapFilterElements: mapFilterElements
-  }
+  };
 })();
