@@ -3,49 +3,53 @@
   var roomNumberElement = document.querySelector('#room_number');
   var capacityElement = document.querySelector('#capacity');
   var mapFeaturesFilterElement = document.querySelector('.map__features');
-  var initPage = function (status) {
-    [].forEach.call(window.variables.adFormElements, function (item) {
-      item.disabled = status;
+  var disabledItem = function (item, status) {
+    item.disabled = status;
+  }
+  var initForm = function (status) {
 
+    Array.from(window.variables.adFormElements).forEach(function(item){
+      disabledItem(item, status);
+      console.log(item)
     });
+
     window.variables.adFormHeader.disabled = status;
-    [].forEach.call(window.variables.mapFilterElements, function (item) {
-      item.disabled = status;
-    });
+
+   Array.from(window.variables.mapFilterElements).forEach(function(item){
+     disabledItem(item, status);
+  });
     mapFeaturesFilterElement.disabled = status;
   };
   var validityRoomAndCapacity = function () {
     switch (roomNumberElement.value) {
       case ('1'):
-        [].forEach.call(capacityElement.options, function (item) {
-          item.disabled = false;
+        Array.from(capacityElement.options).forEach(function(item){
+          disabledItem(item, status);
         });
-        capacityElement.options[0].disabled = 'disabled';
-        capacityElement.options[1].disabled = 'disabled';
-        capacityElement.options[3].disabled = 'disabled';
+        disabledItem(capacityElement.options[0], 'disabled');
+        disabledItem(capacityElement.options[1], 'disabled');
+        disabledItem(capacityElement.options[3], 'disabled');
         break;
       case ('2'):
-        [].forEach.call(capacityElement.options, function (item) {
-          item.disabled = false;
+        Array.from(capacityElement.options).forEach(function(item){
+          disabledItem(item, status);
         });
-
-        capacityElement.options[1].disabled = 'disabled';
-        capacityElement.options[3].disabled = 'disabled';
+        disabledItem(capacityElement.options[1], 'disabled');
+        disabledItem(capacityElement.options[2], 'disabled');
         break;
       case ('3'):
-        [].forEach.call(capacityElement.options, function (item) {
-          item.disabled = false;
+        Array.from(capacityElement.options).forEach(function(item){
+          disabledItem(item, status);
         });
-        capacityElement.options[3].disabled = 'disabled';
+        disabledItem(capacityElement.options[3], 'disabled');
         break;
       case ('100'):
-        [].forEach.call(capacityElement.options, function (item) {
-          item.disabled = false;
+        Array.from(capacityElement.options).forEach(function(item){
+          disabledItem(item, status);
         });
-
-        capacityElement.options[2].disabled = 'disabled';
-        capacityElement.options[1].disabled = 'disabled';
-        capacityElement.options[0].disabled = 'disabled';
+        disabledItem(capacityElement.options[2], 'disabled');
+        disabledItem(capacityElement.options[1], 'disabled');
+        disabledItem(capacityElement.options[0], 'disabled');
         break;
     }
     return capacityElement;
@@ -53,8 +57,9 @@
 
   roomNumberElement.addEventListener('input', validityRoomAndCapacity);
   validityRoomAndCapacity();
-  initPage('disabled');
+  initForm('disabled');
   window.form = {
-    initPage: initPage
+   initForm: initForm,
+   disabledItem: disabledItem
   };
 })();

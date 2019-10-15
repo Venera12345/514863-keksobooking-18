@@ -11,7 +11,7 @@
   var transitActivState = function () {
     window.variables.mapElement.classList.remove('map--faded');
     window.variables.adFormElement.classList.remove('ad-form--disabled');
-    window.form.initPage(false);
+   window.form.initForm(false);
   };
   mapPinMainElement.addEventListener('mousedown', function () {
     transitActivState();
