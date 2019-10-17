@@ -2,12 +2,9 @@
 (function () {
   var mapPinMainElement = document.querySelector('.map__pin--main');
   var inputAddressElement = document.querySelector('#address');
-<<<<<<< HEAD
   var pinElements = document.querySelectorAll('.map__pin');
   var cardElements = document.querySelectorAll('.map__card');
   var popupClose = document.querySelectorAll('.popup__close');
-=======
->>>>>>> aadc56b3600d91b219bc47598aa1cf398a469d46
   var getLocation = function () {
     var locationX = +(mapPinMainElement.style.left).slice(0, -2) + window.variables.PIN_MAIN_WIDTH / 2;
     var locationY = +(mapPinMainElement.style.top).slice(0, -2) + window.variables.PIN_MAIN_HEIGHT;
