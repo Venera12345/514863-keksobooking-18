@@ -51,7 +51,14 @@
     sortFeatureElement(featuresElement, arr, num);
     return element;
   };
-
-  fragmentCard.appendChild(createElementCard(window.data.dateForRoom, 0));
+  for (var j = 0; j < window.variables.AMOUNT_OFFER; j++) {
+    var cardElement = createElementCard(window.data.dateForRoom, j);
+    var cardElements = [];
+    cardElements.push(cardElement);
+    fragmentCard.appendChild(cardElement);
+  }
   window.variables.mapElement.appendChild(fragmentCard);
+  window.card = {
+    cardElements: cardElements
+  };
 })();
