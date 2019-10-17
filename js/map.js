@@ -20,9 +20,9 @@
     element.classList.remove('hidden');
     document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === window.variables.KEYCODE_ESC) {
-        onClickCloseCard(cardElements[i - window.variables.INDEX_FOR_CARD]);
+        onClickCloseCard(element);
       }
-    })
+    });
   };
   var onClickCloseCard = function (element) {
     element.classList.add('hidden');
