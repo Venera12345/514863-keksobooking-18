@@ -3,14 +3,11 @@
   var roomNumberElement = document.querySelector('#room_number');
   var capacityElement = document.querySelector('#capacity');
   var mapFeaturesFilterElement = document.querySelector('.map__features');
-<<<<<<< HEAD
   var inputTitle = document.querySelector('#title');
   var inputPrice = document.querySelector('#price');
   var typeRoom = document.querySelector('#type');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
-=======
->>>>>>> aadc56b3600d91b219bc47598aa1cf398a469d46
   var disabledItem = function (item, status) {
     item.disabled = status;
   };
@@ -27,11 +24,7 @@
     });
     mapFeaturesFilterElement.disabled = status;
   };
-<<<<<<< HEAD
   var onClickValidityRoomAndCapacity = function () {
-=======
-  var validityRoomAndCapacity = function () {
->>>>>>> aadc56b3600d91b219bc47598aa1cf398a469d46
     switch (roomNumberElement.value) {
       case ('1'):
         Array.from(capacityElement.options).forEach(function (item) {
@@ -45,13 +38,8 @@
         Array.from(capacityElement.options).forEach(function (item) {
           disabledItem(item, status);
         });
-<<<<<<< HEAD
         disabledItem(capacityElement.options[0], 'disabled');
         disabledItem(capacityElement.options[3], 'disabled');
-=======
-        disabledItem(capacityElement.options[1], 'disabled');
-        disabledItem(capacityElement.options[2], 'disabled');
->>>>>>> aadc56b3600d91b219bc47598aa1cf398a469d46
         break;
       case ('3'):
         Array.from(capacityElement.options).forEach(function (item) {
@@ -70,7 +58,6 @@
     }
     return capacityElement;
   };
-<<<<<<< HEAD
   var onClickValidityInputTitle = function () {
     return inputTitle.addEventListener('input', function () {
       var inValid = false;
@@ -156,12 +143,6 @@
       evt.preventDefault();
     }
   });
-=======
-
-  roomNumberElement.addEventListener('input', validityRoomAndCapacity);
-  validityRoomAndCapacity();
-  initForm('disabled');
->>>>>>> aadc56b3600d91b219bc47598aa1cf398a469d46
   window.form = {
     initForm: initForm,
     disabledItem: disabledItem

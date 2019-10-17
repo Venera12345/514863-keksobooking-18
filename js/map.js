@@ -19,7 +19,6 @@
     window.variables.adFormElement.classList.remove('ad-form--disabled');
     window.form.initForm(false);
   };
-<<<<<<< HEAD
   var onClickOpenCard = function (element) {
     element.classList.remove('hidden');
     document.addEventListener('keydown', function (evt) {
@@ -32,24 +31,17 @@
     element.classList.add('hidden');
     document.removeEventListener('keydown', onClickCloseCard);
   };
-=======
->>>>>>> aadc56b3600d91b219bc47598aa1cf398a469d46
   mapPinMainElement.addEventListener('mousedown', function () {
     transitActivState();
     inputAddressElement.value = getLocation();
 
   });
   mapPinMainElement.addEventListener('keydown', function (evt) {
-<<<<<<< HEAD
     if (evt.keyCode === window.variables.KEYCODE_ENTER) {
-=======
-    if (evt.keyCode === 13) {
->>>>>>> aadc56b3600d91b219bc47598aa1cf398a469d46
       transitActivState();
     }
   });
 
-<<<<<<< HEAD
 
   pinElements.forEach(function (item, i) {
     if (i > 0) {
@@ -78,6 +70,4 @@
   cardElements.forEach(function (item) {
     item.classList.add('hidden');
   });
-=======
->>>>>>> aadc56b3600d91b219bc47598aa1cf398a469d46
 })();
