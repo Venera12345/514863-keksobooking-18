@@ -23,5 +23,5 @@
   mapPinsElement.appendChild(fragment);
   window.pin = {
     pinElementsCreating: pinElementsCreating
-  }
+  };
 })();

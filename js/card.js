@@ -60,5 +60,5 @@
   window.variables.mapElement.appendChild(fragmentCard);
   window.card = {
     cardElements: cardElements
-  }
+  };
 })();

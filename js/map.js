@@ -18,6 +18,11 @@
   };
   var onClickOpenCard = function (element) {
     element.classList.remove('hidden');
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.variables.KEYCODE_ESC) {
+        onClickCloseCard(cardElements[i - window.variables.INDEX_FOR_CARD]);
+      }
+    })
   };
   var onClickCloseCard = function (element) {
     element.classList.add('hidden');
@@ -48,11 +53,6 @@
       item.addEventListener('keydown', function (evt) {
         if (evt.keyCode === window.variables.KEYCODE_ENTER) {
           onClickOpenCard(cardElements[i - window.variables.INDEX_FOR_CARD]);
-          document.addEventListener('keydown', function (evt) {
-            if (evt.keyCode === window.variables.KEYCODE_ESC) {
-              onClickCloseCard(cardElements[i - window.variables.INDEX_FOR_CARD]);
-            }
-          });
         }
       });
     }
@@ -61,10 +61,10 @@
   popupClose.forEach(function (item, i) {
     item.addEventListener('click', function () {
       onClickCloseCard(cardElements[i]);
-    })
+    });
   });
 
   cardElements.forEach(function (item) {
     item.classList.add('hidden');
-  })
+  });
 })();
