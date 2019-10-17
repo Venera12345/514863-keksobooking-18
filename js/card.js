@@ -4,10 +4,17 @@
   var fragmentCard = document.createDocumentFragment();
 
   var sortFeatureElement = function (element, arr, index) {
+<<<<<<< HEAD
     for (var i = arr[index].offer.features.length; i < window.variables.FEATURES.length; i++) {
       element[i].style.display = 'none';
     }
     return element[i];
+=======
+    for (var k = arr[index].offer.features.length; k < window.variables.FEATURES.length; k++) {
+      element[k].style.display = 'none';
+    }
+    return element[k];
+>>>>>>> aadc56b3600d91b219bc47598aa1cf398a469d46
   };
   var translateType = function (type) {
     var nameType;
@@ -51,6 +58,7 @@
     sortFeatureElement(featuresElement, arr, num);
     return element;
   };
+<<<<<<< HEAD
   for (var j = 0; j < window.variables.AMOUNT_OFFER; j++) {
     var cardElement = createElementCard(window.data.dateForRoom, j);
     var cardElements = [];
@@ -61,4 +69,9 @@
   window.card = {
     cardElements: cardElements
   };
+=======
+
+  fragmentCard.appendChild(createElementCard(window.data.dateForRoom, 0));
+  window.variables.mapElement.appendChild(fragmentCard);
+>>>>>>> aadc56b3600d91b219bc47598aa1cf398a469d46
 })();

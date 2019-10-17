@@ -15,6 +15,7 @@
     return element;
   };
   for (var j = 0; j < window.variables.AMOUNT_OFFER; j++) {
+<<<<<<< HEAD
     var pinElementCreating = createElementPin(j);
     var pinElementsCreating = [];
     pinElementsCreating.push(pinElementCreating);
@@ -24,4 +25,10 @@
   window.pin = {
     pinElementsCreating: pinElementsCreating
   };
+=======
+    fragment.appendChild(createElementPin(j));
+  }
+  mapPinsElement.appendChild(fragment);
+
+>>>>>>> aadc56b3600d91b219bc47598aa1cf398a469d46
 })();
