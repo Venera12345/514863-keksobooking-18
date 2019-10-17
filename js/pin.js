@@ -15,8 +15,13 @@
     return element;
   };
   for (var j = 0; j < window.variables.AMOUNT_OFFER; j++) {
+    var pinElementCreating = createElementPin(j);
+    var pinElementsCreating = [];
+    pinElementsCreating.push(pinElementCreating);
     fragment.appendChild(createElementPin(j));
   }
   mapPinsElement.appendChild(fragment);
-
+  window.pin = {
+    pinElementsCreating: pinElementsCreating
+  }
 })();

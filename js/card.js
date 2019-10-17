@@ -4,10 +4,10 @@
   var fragmentCard = document.createDocumentFragment();
 
   var sortFeatureElement = function (element, arr, index) {
-    for (var k = arr[index].offer.features.length; k < window.variables.FEATURES.length; k++) {
-      element[k].style.display = 'none';
+    for (var i = arr[index].offer.features.length; i < window.variables.FEATURES.length; i++) {
+      element[i].style.display = 'none';
     }
-    return element[k];
+    return element[i];
   };
   var translateType = function (type) {
     var nameType;
@@ -51,7 +51,14 @@
     sortFeatureElement(featuresElement, arr, num);
     return element;
   };
-
-  fragmentCard.appendChild(createElementCard(window.data.dateForRoom, 0));
+  for (var j = 0; j < window.variables.AMOUNT_OFFER; j++) {
+    var cardElement = createElementCard(window.data.dateForRoom, j);
+    var cardElements = [];
+    cardElements.push(cardElement);
+    fragmentCard.appendChild(cardElement);
+  }
   window.variables.mapElement.appendChild(fragmentCard);
+  window.card = {
+    cardElements: cardElements
+  }
 })();
