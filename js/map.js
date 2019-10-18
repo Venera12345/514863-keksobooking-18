@@ -64,8 +64,8 @@
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
       if (dragged) {
-        var onClickPreventDefault = function (evt) {
-          evt.preventDefault();
+        var onClickPreventDefault = function (evtClick) {
+          evtClick.preventDefault();
           mapPinMainElement.removeEventListener('click', onClickPreventDefault);
         };
         mapPinMainElement.addEventListener('click', onClickPreventDefault);
