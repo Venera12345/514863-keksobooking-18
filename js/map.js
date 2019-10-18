@@ -15,6 +15,7 @@
     window.variables.mapElement.classList.remove('map--faded');
     window.variables.adFormElement.classList.remove('ad-form--disabled');
     window.form.initForm(false);
+    inputAddressElement.value = getLocation();
   };
   var onClickOpenCard = function (element) {
     element.classList.remove('hidden');
@@ -28,11 +29,53 @@
     element.classList.add('hidden');
     document.removeEventListener('keydown', onClickCloseCard);
   };
-  mapPinMainElement.addEventListener('mousedown', function () {
-    transitActivState();
-    inputAddressElement.value = getLocation();
 
+  mapPinMainElement.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    transitActivState();
+
+    var startCoord = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+    var dragged = false;
+    var onMouseMove = function (evtMove) {
+      evtMove.preventDefault();
+      dragged = true;
+      var shift = {
+        x: startCoord.x - evtMove.clientX,
+        y: startCoord.y - evtMove.clientY
+      };
+      startCoord = {
+        x: evtMove.clientX,
+        y: evtMove.clientY
+      };
+      inputAddressElement.value = getLocation();
+      var pinY = mapPinMainElement.offsetTop - shift.y;
+      var pinX = mapPinMainElement.offsetLeft - shift.x;
+      if (pinY >= window.variables.HEIGHT_MAP_HADER && pinY <= window.variables.HEIGHT_MAP && pinX < window.variables.WIDTH_MAP - window.variables.WIDTH_PIN && pinX > 0) {
+        mapPinMainElement.style.top = pinY + 'px';
+        mapPinMainElement.style.left = pinX + 'px';
+      }
+
+    };
+    var onMouseUp = function (evtUp) {
+      evtUp.preventDefault();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+      if (dragged) {
+        var onClickPreventDefault = function (evt) {
+          evt.preventDefault();
+          mapPinMainElement.removeEventListener('click', onClickPreventDefault);
+        };
+        mapPinMainElement.addEventListener('click', onClickPreventDefault);
+      }
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
+
   mapPinMainElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.variables.KEYCODE_ENTER) {
       transitActivState();
@@ -67,4 +110,8 @@
   cardElements.forEach(function (item) {
     item.classList.add('hidden');
   });
+  window.map = {
+    inputAddressElement: inputAddressElement,
+    mapPinMainElement: mapPinMainElement
+  };
 })();

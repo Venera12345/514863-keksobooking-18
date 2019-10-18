@@ -8,6 +8,7 @@
   var typeRoom = document.querySelector('#type');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
+
   var disabledItem = function (item, status) {
     item.disabled = status;
   };
@@ -117,7 +118,6 @@
         break;
     }
   };
-
   var onClickValidityTime = function (elementClickFirst, elementClickSecond) {
     elementClickFirst.addEventListener('change', function () {
       choseTime(timeIn.selectedIndex, timeOut);
@@ -126,7 +126,6 @@
       choseTime(timeOut.selectedIndex, timeIn);
     });
   };
-
 
   roomNumberElement.addEventListener('input', onClickValidityRoomAndCapacity);
   typeRoom.addEventListener('change', onClickValidityTypeRoom);
