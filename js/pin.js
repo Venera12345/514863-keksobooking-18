@@ -1,27 +1,25 @@
 'use strict';
 (function () {
+  var PIN_HEIGHT = 70;
   var pinTemplateElement = document.querySelector('#pin').content;
   var pinElement = pinTemplateElement.querySelector('.map__pin');
-  var mapPinsElement = document.querySelector('.map__pins');
   var fragment = document.createDocumentFragment();
-  var dateForRoom = window.data.dateForRoom;
+  var dataForRooms = window.data.dataForRooms;
   var createElementPin = function (number) {
     var element = pinElement.cloneNode(true);
-    element.style.left = dateForRoom[number].location.x - window.variables.WIDTH_PIN / 2 + 'px';
-    element.style.top = dateForRoom[number].location.y - window.variables.HEIGHT_PIN + 'px';
+    element.classList.add('pin-open-card');
+    element.style.left = dataForRooms[number].location.x - window.variables.PIN_WIDTH / 2 + 'px';
+    element.style.top = dataForRooms[number].location.y - PIN_HEIGHT + 'px';
     var imgElement = element.querySelector('img');
-    imgElement.src = dateForRoom[number].author.avatar;
-    imgElement.alt = dateForRoom[number].offer.title;
+    imgElement.src = dataForRooms[number].author.avatar;
+    imgElement.alt = dataForRooms[number].offer.title;
     return element;
   };
   for (var j = 0; j < window.variables.AMOUNT_OFFER; j++) {
     var pinElementCreating = createElementPin(j);
-    var pinElementsCreating = [];
-    pinElementsCreating.push(pinElementCreating);
-    fragment.appendChild(createElementPin(j));
+    fragment.appendChild(pinElementCreating);
   }
-  mapPinsElement.appendChild(fragment);
   window.pin = {
-    pinElementsCreating: pinElementsCreating
+    fragment: fragment
   };
 })();
