@@ -27,32 +27,37 @@
   };
   var onValidityRoomAndCapacityClick = function () {
     Array.from(capacityElement.options).forEach(function (item) {
-      item.classList.add('hidden'); });
-   if (roomNumberElement.value === '1') {
-    capacityElement.value = '1';
-    Array.from(capacityElement.options).forEach(function (item) {
-      if (item.value === '1') {
-        item.classList.remove('hidden');
-      } });
-   } else if (roomNumberElement.value === '2') {
-    capacityElement.value = '2';
-    Array.from(capacityElement.options).forEach(function (item) {
-      if(item.value === '1' || item.value === '2') {
-        item.classList.remove('hidden');
-      } });
-  } else if (roomNumberElement.value === '3') {
-    capacityElement.value = '3';
-    Array.from(capacityElement.options).forEach(function (item) {
-      if(item.value !== '0' ) {
-        item.classList.remove('hidden');
-      } });
-  } else {
-    capacityElement.value = '0';
-    Array.from(capacityElement.options).forEach(function (item) {
-      if(item.value === '0' ) {
-        item.classList.remove('hidden');
-      } });
-  }
+      item.classList.add('hidden');
+    });
+    if (roomNumberElement.value === '1') {
+      capacityElement.value = '1';
+      Array.from(capacityElement.options).forEach(function (item) {
+        if (item.value === '1') {
+          item.classList.remove('hidden');
+        }
+      });
+    } else if (roomNumberElement.value === '2') {
+      capacityElement.value = '2';
+      Array.from(capacityElement.options).forEach(function (item) {
+        if (item.value === '1' || item.value === '2') {
+          item.classList.remove('hidden');
+        }
+      });
+    } else if (roomNumberElement.value === '3') {
+      capacityElement.value = '3';
+      Array.from(capacityElement.options).forEach(function (item) {
+        if (item.value !== '0') {
+          item.classList.remove('hidden');
+        }
+      });
+    } else {
+      capacityElement.value = '0';
+      Array.from(capacityElement.options).forEach(function (item) {
+        if (item.value === '0') {
+          item.classList.remove('hidden');
+        }
+      });
+    }
   };
   var onValidityInputTitleClick = function () {
     return inputTitle.addEventListener('input', function () {
@@ -66,14 +71,14 @@
   };
   var onValidityTypeRoomClick = function (type, max, min) {
     if (typeRoom.value === type) {
-        inputPrice.placeholder = min;
-        inputPrice.min = min;
-        inputPrice.max = max;
+      inputPrice.placeholder = min;
+      inputPrice.min = min;
+      inputPrice.max = max;
     }
   };
   var choseTime = function (timeFirst, timeSecond) {
     timeFirst.addEventListener('change', function () {
-     timeSecond.selectedIndex =  timeFirst.selectedIndex;
+      timeSecond.selectedIndex = timeFirst.selectedIndex;
     });
   };
   choseTime(timeIn, timeOut);

@@ -26,8 +26,8 @@
           onCloseCardClick();
         }
       });
-     var popupClose = document.querySelector('.popup__close');
-       popupClose.addEventListener('click', function () {
+      var popupClose = document.querySelector('.popup__close');
+      popupClose.addEventListener('click', function () {
         onCloseCardClick();
       });
     };
@@ -36,10 +36,10 @@
       mapCard.classList.add('hidden');
     };
 
-    Array.from(pinElement).forEach(function (item, i){
+    Array.from(pinElement).forEach(function (item, i) {
       item.addEventListener('click', function () {
-          createElementCard(mapCard, window.data.dataForRooms, i);
-          onOpenCardClick();
+        createElementCard(mapCard, window.data.dataForRooms, i);
+        onOpenCardClick();
         document.addEventListener('keydown', function (evt) {
           if (evt.keyCode === window.variables.KEYCODE_ESC) {
             onCloseCardClick();
@@ -110,7 +110,7 @@
 
   mapPinMainElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.variables.KEYCODE_ENTER) {
-      transitActivState();
+      activateMap();
     }
   });
 
