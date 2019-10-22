@@ -11,12 +11,12 @@
     wrapper.appendChild(element);
   };
   var translateType = function (type) {
-  var typeRoom = {
+    var typeRoom = {
       'house': 'Дом',
-        'flat': 'Квартира',
-        'palace': 'Дворец',
-        'bungalo': 'Бунгало'
-    }
+      'flat': 'Квартира',
+      'palace': 'Дворец',
+      'bungalo': 'Бунгало'
+    };
     var nameType = typeRoom[type];
     return nameType;
   };
@@ -52,11 +52,10 @@
     createPhoto(element);
     element.classList.add('hidden');
   };
-  createElementCard(cardElementClone, window.data.dataForRooms, 0)
+  createElementCard(cardElementClone, window.data.dataForRooms, 0);
   fragment.appendChild(cardElementClone);
   window.variables.mapElement.appendChild(fragment);
   window.card = {
     createElementCard: createElementCard
   };
 })();
-
