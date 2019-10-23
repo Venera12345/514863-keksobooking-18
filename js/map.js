@@ -19,27 +19,40 @@
   var addPinOnMap = function () {
     mapPinsElement.appendChild(window.pin.fragment);
     var pinElement = document.querySelectorAll('.pin-open-card');
-    var onOpenCardClick = function () {
-      mapCard.classList.remove('hidden');
+    var onOpenCardClick = function (item, i) {
+      item.setAttribute('data-click', i);
+      window.load(fillingOutCard);
+      var popupClose = document.querySelector('.popup__close');
+      popupClose.addEventListener('click', function () {
+        item.setAttribute('data-click', ' ');
+        onCloseCardClick();
+      });
       document.addEventListener('keydown', function (evt) {
         if (evt.keyCode === window.variables.KEYCODE_ESC) {
           onCloseCardClick();
         }
       });
-      var popupClose = document.querySelector('.popup__close');
-      popupClose.addEventListener('click', function () {
-        onCloseCardClick();
-      });
+
     };
     var onCloseCardClick = function () {
       document.removeEventListener('keydown', onCloseCardClick);
       mapCard.classList.add('hidden');
     };
+    var fillingOutCard = function (data) {
+      Array.from(pinElement).forEach(function (item) {
+        var dataClick = 0;
+        if (item.getAttribute('data-click') != ' ') {
+          dataClick = item.getAttribute('data-click');
+          createElementCard(data, dataClick);
+          item.setAttribute('data-click', ' ');
+        }
+
+      })
+    };
 
     Array.from(pinElement).forEach(function (item, i) {
       item.addEventListener('click', function () {
-        createElementCard(mapCard, window.data.dataForRooms, i);
-        onOpenCardClick();
+        onOpenCardClick(item, i);
         document.addEventListener('keydown', function (evt) {
           if (evt.keyCode === window.variables.KEYCODE_ESC) {
             onCloseCardClick();
@@ -48,12 +61,12 @@
       });
       item.addEventListener('keydown', function (evt) {
         if (evt.keyCode === window.variables.KEYCODE_ENTER) {
-          createElementCard(mapCard, window.data.dataForRooms, i);
-          onOpenCardClick();
+          onOpenCardClick(item, i);
         }
       });
     });
   };
+
   var activateMap = function () {
     window.variables.mapElement.classList.remove('map--faded');
     window.variables.adFormElement.classList.remove('ad-form--disabled');
