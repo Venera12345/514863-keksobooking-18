@@ -1,39 +1,82 @@
 'use strict';
 (function () {
-  var mapPinMainElement = document.querySelector('.map__pin--main');
+  var PIN_MAIN_WIDTH = 65;
+  var PIN_MAIN_HEIGHT = 84;
+  var mapHeaderHeight = window.variables.MAP_HEADER_HEIGHT;
+  var mapHeight = window.variables.MAP_HEIGHT;
+  var mapWidth = window.variables.mapElement.offsetWidth;
+  var createElementCard = window.card.createElementCard;
   var inputAddressElement = document.querySelector('#address');
-  var pinElements = document.querySelectorAll('.map__pin');
-  var cardElements = document.querySelectorAll('.map__card');
-  var popupClose = document.querySelectorAll('.popup__close');
+  var mapPinMainElement = document.querySelector('.map__pin--main');
+  var mapCard = document.querySelector('.map__card');
+  var mapPinsElement = document.querySelector('.map__pins');
   var getLocation = function () {
-    var locationX = +(mapPinMainElement.style.left).slice(0, -2) + window.variables.PIN_MAIN_WIDTH / 2;
-    var locationY = +(mapPinMainElement.style.top).slice(0, -2) + window.variables.PIN_MAIN_HEIGHT;
+    var locationX = +(mapPinMainElement.style.left).slice(0, -2) + PIN_MAIN_WIDTH / 2;
+    var locationY = +(mapPinMainElement.style.top).slice(0, -2) + PIN_MAIN_HEIGHT;
 
     return Math.floor(locationX) + ', ' + Math.floor(locationY);
   };
-  var transitActivState = function () {
+  var addPinOnMap = function () {
+    mapPinsElement.appendChild(window.pin.fragment);
+    var pinElement = document.querySelectorAll('.pin-open-card');
+    var onOpenCardClick = function (item, i) {
+      item.setAttribute('data-click', i);
+      window.load(fillingOutCard);
+      var popupClose = document.querySelector('.popup__close');
+      popupClose.addEventListener('click', function () {
+        item.setAttribute('data-click', ' ');
+        onCloseCardClick();
+      });
+      document.addEventListener('keydown', function (evt) {
+        if (evt.keyCode === window.variables.KEYCODE_ESC) {
+          onCloseCardClick();
+        }
+      });
+
+    };
+    var onCloseCardClick = function () {
+      document.removeEventListener('keydown', onCloseCardClick);
+      mapCard.classList.add('hidden');
+    };
+    var fillingOutCard = function (data) {
+      Array.from(pinElement).forEach(function (item) {
+        var dataClick = 0;
+        if (item.getAttribute('data-click') != ' ') {
+          dataClick = item.getAttribute('data-click');
+          createElementCard(data, dataClick);
+          item.setAttribute('data-click', ' ');
+        }
+
+      })
+    };
+
+    Array.from(pinElement).forEach(function (item, i) {
+      item.addEventListener('click', function () {
+        onOpenCardClick(item, i);
+        document.addEventListener('keydown', function (evt) {
+          if (evt.keyCode === window.variables.KEYCODE_ESC) {
+            onCloseCardClick();
+          }
+        });
+      });
+      item.addEventListener('keydown', function (evt) {
+        if (evt.keyCode === window.variables.KEYCODE_ENTER) {
+          onOpenCardClick(item, i);
+        }
+      });
+    });
+  };
+
+  var activateMap = function () {
     window.variables.mapElement.classList.remove('map--faded');
     window.variables.adFormElement.classList.remove('ad-form--disabled');
     window.form.initForm(false);
-    inputAddressElement.value = getLocation();
-  };
-  var onClickOpenCard = function (element) {
-    element.classList.remove('hidden');
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.variables.KEYCODE_ESC) {
-        onClickCloseCard(element);
-      }
-    });
-  };
-  var onClickCloseCard = function (element) {
-    element.classList.add('hidden');
-    document.removeEventListener('keydown', onClickCloseCard);
+    addPinOnMap();
   };
 
   mapPinMainElement.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
-    transitActivState();
 
+    evt.preventDefault();
     var startCoord = {
       x: evt.clientX,
       y: evt.clientY
@@ -53,7 +96,8 @@
       inputAddressElement.value = getLocation();
       var pinY = mapPinMainElement.offsetTop - shift.y;
       var pinX = mapPinMainElement.offsetLeft - shift.x;
-      if (pinY >= window.variables.HEIGHT_MAP_HADER && pinY <= window.variables.HEIGHT_MAP && pinX < window.variables.WIDTH_MAP - window.variables.WIDTH_PIN && pinX > 0) {
+      if (pinY >= mapHeaderHeight && pinY <= mapHeight &&
+        pinX < mapWidth - window.variables.PIN_WIDTH && pinX > 0) {
         mapPinMainElement.style.top = pinY + 'px';
         mapPinMainElement.style.left = pinX + 'px';
       }
@@ -63,12 +107,13 @@
       evtUp.preventDefault();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
+      activateMap();
       if (dragged) {
-        var onClickPreventDefault = function (evtClick) {
+        var onPreventDefaultClick = function (evtClick) {
           evtClick.preventDefault();
-          mapPinMainElement.removeEventListener('click', onClickPreventDefault);
+          mapPinMainElement.removeEventListener('click', onPreventDefaultClick);
         };
-        mapPinMainElement.addEventListener('click', onClickPreventDefault);
+        mapPinMainElement.addEventListener('click', onPreventDefaultClick);
       }
     };
 
@@ -78,38 +123,11 @@
 
   mapPinMainElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.variables.KEYCODE_ENTER) {
-      transitActivState();
+      activateMap();
     }
   });
 
 
-  pinElements.forEach(function (item, i) {
-    if (i > 0) {
-      item.addEventListener('click', function () {
-        onClickOpenCard(cardElements[i - window.variables.INDEX_FOR_CARD]);
-        document.addEventListener('keydown', function (evt) {
-          if (evt.keyCode === window.variables.KEYCODE_ESC) {
-            onClickCloseCard(cardElements[i - window.variables.INDEX_FOR_CARD]);
-          }
-        });
-      });
-      item.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === window.variables.KEYCODE_ENTER) {
-          onClickOpenCard(cardElements[i - window.variables.INDEX_FOR_CARD]);
-        }
-      });
-    }
-  });
-
-  popupClose.forEach(function (item, i) {
-    item.addEventListener('click', function () {
-      onClickCloseCard(cardElements[i]);
-    });
-  });
-
-  cardElements.forEach(function (item) {
-    item.classList.add('hidden');
-  });
   window.map = {
     inputAddressElement: inputAddressElement,
     mapPinMainElement: mapPinMainElement

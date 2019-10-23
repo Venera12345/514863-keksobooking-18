@@ -25,41 +25,41 @@
     });
     mapFeaturesFilterElement.disabled = status;
   };
-  var onClickValidityRoomAndCapacity = function () {
-    switch (roomNumberElement.value) {
-      case ('1'):
-        Array.from(capacityElement.options).forEach(function (item) {
-          disabledItem(item, status);
-        });
-        disabledItem(capacityElement.options[0], 'disabled');
-        disabledItem(capacityElement.options[1], 'disabled');
-        disabledItem(capacityElement.options[3], 'disabled');
-        break;
-      case ('2'):
-        Array.from(capacityElement.options).forEach(function (item) {
-          disabledItem(item, status);
-        });
-        disabledItem(capacityElement.options[0], 'disabled');
-        disabledItem(capacityElement.options[3], 'disabled');
-        break;
-      case ('3'):
-        Array.from(capacityElement.options).forEach(function (item) {
-          disabledItem(item, status);
-        });
-        disabledItem(capacityElement.options[3], 'disabled');
-        break;
-      case ('100'):
-        Array.from(capacityElement.options).forEach(function (item) {
-          disabledItem(item, status);
-        });
-        disabledItem(capacityElement.options[2], 'disabled');
-        disabledItem(capacityElement.options[1], 'disabled');
-        disabledItem(capacityElement.options[0], 'disabled');
-        break;
+  var onValidityRoomAndCapacityClick = function () {
+    Array.from(capacityElement.options).forEach(function (item) {
+      item.classList.add('hidden');
+    });
+    if (roomNumberElement.value === '1') {
+      capacityElement.value = '1';
+      Array.from(capacityElement.options).forEach(function (item) {
+        if (item.value === '1') {
+          item.classList.remove('hidden');
+        }
+      });
+    } else if (roomNumberElement.value === '2') {
+      capacityElement.value = '2';
+      Array.from(capacityElement.options).forEach(function (item) {
+        if (item.value === '1' || item.value === '2') {
+          item.classList.remove('hidden');
+        }
+      });
+    } else if (roomNumberElement.value === '3') {
+      capacityElement.value = '3';
+      Array.from(capacityElement.options).forEach(function (item) {
+        if (item.value !== '0') {
+          item.classList.remove('hidden');
+        }
+      });
+    } else {
+      capacityElement.value = '0';
+      Array.from(capacityElement.options).forEach(function (item) {
+        if (item.value === '0') {
+          item.classList.remove('hidden');
+        }
+      });
     }
-    return capacityElement;
   };
-  var onClickValidityInputTitle = function () {
+  var onValidityInputTitleClick = function () {
     return inputTitle.addEventListener('input', function () {
       var inValid = false;
       if (Array.from(inputTitle.value).length > 30 && Array.from(inputTitle.value).length < 100) {
@@ -69,73 +69,33 @@
     });
 
   };
-  var onClickValidityTypeRoom = function () {
-    switch (typeRoom.value) {
-      case ('bungalo'):
-        inputPrice.placeholder = '0';
-        inputPrice.min = '0';
-        inputPrice.max = '1000';
-
-        break;
-      case ('flat'):
-        inputPrice.placeholder = '1000';
-        inputPrice.min = '1000';
-        inputPrice.max = '5000';
-        break;
-
-      case ('house'):
-        inputPrice.placeholder = '5000';
-        inputPrice.min = '5000';
-        inputPrice.max = '10000';
-        break;
-
-      case ('palace'):
-        inputPrice.placeholder = '10000';
-        inputPrice.min = '10000';
-        inputPrice.max = '1000000';
-        break;
+  var onValidityTypeRoomClick = function (type, max, min) {
+    if (typeRoom.value === type) {
+      inputPrice.placeholder = min;
+      inputPrice.min = min;
+      inputPrice.max = max;
     }
   };
-  var choseTime = function (index, element) {
-    switch (index) {
-      case (0):
-        Array.from(element.options).forEach(function (item) {
-          item.selected = ' ';
-        });
-        element.options[0].selected = 'selected';
-        break;
-      case (1):
-        Array.from(element.options).forEach(function (item) {
-          item.selected = '';
-        });
-        element.options[1].selected = 'selected';
-        break;
-      case (2):
-        Array.from(element.options).forEach(function (item) {
-          item.selected = '';
-        });
-        element.options[2].selected = 'selected';
-        break;
-    }
-  };
-  var onClickValidityTime = function (elementClickFirst, elementClickSecond) {
-    elementClickFirst.addEventListener('change', function () {
-      choseTime(timeIn.selectedIndex, timeOut);
-    });
-    elementClickSecond.addEventListener('change', function () {
-      choseTime(timeOut.selectedIndex, timeIn);
+  var choseTime = function (timeFirst, timeSecond) {
+    timeFirst.addEventListener('change', function () {
+      timeSecond.selectedIndex = timeFirst.selectedIndex;
     });
   };
-
-  roomNumberElement.addEventListener('input', onClickValidityRoomAndCapacity);
-  typeRoom.addEventListener('change', onClickValidityTypeRoom);
-  onClickValidityRoomAndCapacity();
-  onClickValidityInputTitle();
-  onClickValidityTime(timeIn, timeOut);
+  choseTime(timeIn, timeOut);
+  choseTime(timeOut, timeIn);
+  roomNumberElement.addEventListener('input', onValidityRoomAndCapacityClick);
+  typeRoom.addEventListener('change', function () {
+    onValidityTypeRoomClick('bungalo', '1000', '0');
+    onValidityTypeRoomClick('palace', '100000', '10000');
+    onValidityTypeRoomClick('flat', '5000', '1000');
+    onValidityTypeRoomClick('house', '10000', '5000');
+  });
+  onValidityRoomAndCapacityClick();
+  onValidityInputTitleClick();
   initForm('disabled');
   var inValidForm = true;
   window.variables.adFormElement.addEventListener('submit', function (evt) {
-    if (onClickValidityInputTitle() === false) {
+    if (onValidityInputTitleClick() === false) {
       inValidForm = false;
     }
     if (inValidForm === false) {
