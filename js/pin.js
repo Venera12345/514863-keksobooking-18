@@ -3,8 +3,9 @@
   var PIN_HEIGHT = 70;
   var pinTemplateElement = document.querySelector('#pin').content;
   var pinElement = pinTemplateElement.querySelector('.map__pin');
-  var fragment = document.createDocumentFragment();
+
   var createElementPin = function (data) {
+    var fragment = document.createDocumentFragment();
     for (var j = 0; j < data.length; j++) {
       var element = pinElement.cloneNode(true);
       element.classList.add('pin-open-card');
@@ -16,10 +17,10 @@
       imgElement.alt = data[j].offer.title;
       fragment.appendChild(element);
     }
+    return fragment;
   };
 
-  window.load(createElementPin);
   window.pin = {
-    fragment: fragment
+    createElementPin: createElementPin
   };
 })();
