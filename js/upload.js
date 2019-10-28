@@ -10,7 +10,7 @@
       if (xhr.status === 200) {
         onSuccess(xhr.response);
       } else {
-        window.LoadError();
+        window.loadError();
       }
     });
 
