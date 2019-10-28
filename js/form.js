@@ -8,6 +8,10 @@
   var typeRoom = document.querySelector('#type');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
+  var inputAddress = document.querySelector('#address');
+  var description = document.querySelector('#description');
+  var fragment = document.createDocumentFragment();
+  var form = window.variables.adForm;
 
   var disabledItem = function (item, status) {
     item.disabled = status;
@@ -90,20 +94,50 @@
     onValidityTypeRoomClick('flat', '5000', '1000');
     onValidityTypeRoomClick('house', '10000', '5000');
   });
+  var inputClean = function () {
+    inputTitle.value = ' ';
+    inputPrice.value = ' ';
+    inputPrice.placeholder = '5000';
+    inputAddress.value = window.map.getLocation();
+    description.value = ' ';
+    typeRoom.value = 'flat';
+    timeIn.value = '12:00';
+    roomNumberElement.value = '1';
+  };
   onValidityRoomAndCapacityClick();
   onValidityInputTitleClick();
   initForm('disabled');
   var inValidForm = true;
-  window.variables.adFormElement.addEventListener('submit', function (evt) {
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
     if (onValidityInputTitleClick() === false) {
       inValidForm = false;
     }
-    if (inValidForm === false) {
-      evt.preventDefault();
+    if (inValidForm === true) {
+      window.upload(new FormData(form), function () {
+        inputClean();
+        var onSucces = document.querySelector('#success').content.querySelector('.success');
+        onSucces.cloneNode(true);
+        onSucces.addEventListener('click', function () {
+          onSucces.parentNode.removeChild(onSucces);
+        });
+        onSucces.addEventListener('keydown', function () {
+          if (evt.keyCode === window.variables.KEYCODE_ESC) {
+            onSucces.parentNode.removeChild(onSucces);
+          }
+
+        });
+        fragment.appendChild(onSucces);
+        window.variables.mapElement.appendChild(fragment);
+        window.map.inactivateMap();
+      });
     }
   });
+
+
   window.form = {
     initForm: initForm,
-    disabledItem: disabledItem
+    disabledItem: disabledItem,
+    inputClean: inputClean
   };
 })();

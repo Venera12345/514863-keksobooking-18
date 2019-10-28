@@ -10,7 +10,7 @@
     mapElement: document.querySelector('.map'),
     adFormElements: document.querySelectorAll('.ad-form__element'),
     adFormHeader: document.querySelector('.ad-form-header'),
-    adFormElement: document.querySelector('.ad-form'),
+    adForm: document.querySelector('.ad-form'),
     mapFilterElements: document.querySelectorAll('.map__filter'),
 
   };

@@ -5,10 +5,8 @@
   var mapHeaderHeight = window.variables.MAP_HEADER_HEIGHT;
   var mapHeight = window.variables.MAP_HEIGHT;
   var mapWidth = window.variables.mapElement.offsetWidth;
-  var createElementCard = window.card.createElementCard;
   var inputAddressElement = document.querySelector('#address');
   var mapPinMainElement = document.querySelector('.map__pin--main');
-  var mapCard = document.querySelector('.map__card');
   var mapPinsElement = document.querySelector('.map__pins');
   var getLocation = function () {
     var locationX = +(mapPinMainElement.style.left).slice(0, -2) + PIN_MAIN_WIDTH / 2;
@@ -17,51 +15,43 @@
     return Math.floor(locationX) + ', ' + Math.floor(locationY);
   };
   var addPinOnMap = function () {
-    mapPinsElement.appendChild(window.pin.fragment);
+    var data = window.dataLoad.dataLoad;
+    mapPinsElement.appendChild(window.pin.createElementPin(data));
+    window.variables.mapElement.appendChild(window.card.createElementCard(data));
     var pinElement = document.querySelectorAll('.pin-open-card');
-    var onOpenCardClick = function (item, i) {
-      item.setAttribute('data-click', i);
-      window.load(fillingOutCard);
-      var popupClose = document.querySelector('.popup__close');
-      popupClose.addEventListener('click', function () {
-        item.setAttribute('data-click', ' ');
-        onCloseCardClick();
+    var mapCard = document.querySelectorAll('.map__card');
+    var onOpenCardClick = function (i) {
+      Array.from(mapCard).forEach(function (item) {
+        item.classList.add('hidden');
+      });
+      mapCard[i].classList.remove('hidden');
+      mapCard[i].querySelector('.popup__close').addEventListener('click', function () {
+        onCloseCardClick(i);
       });
       document.addEventListener('keydown', function (evt) {
         if (evt.keyCode === window.variables.KEYCODE_ESC) {
-          onCloseCardClick();
+          onCloseCardClick(i);
         }
       });
-
     };
-    var onCloseCardClick = function () {
+
+    var onCloseCardClick = function (i) {
       document.removeEventListener('keydown', onCloseCardClick);
-      mapCard.classList.add('hidden');
-    };
-    var fillingOutCard = function (data) {
-      Array.from(pinElement).forEach(function (item) {
-        var dataClick = 0;
-        if (item.getAttribute('data-click') != ' ') {
-          dataClick = item.getAttribute('data-click');
-          createElementCard(data, dataClick);
-          item.setAttribute('data-click', ' ');
-        }
-
-      })
+      mapCard[i].classList.add('hidden');
     };
 
     Array.from(pinElement).forEach(function (item, i) {
       item.addEventListener('click', function () {
-        onOpenCardClick(item, i);
+        onOpenCardClick(i);
         document.addEventListener('keydown', function (evt) {
           if (evt.keyCode === window.variables.KEYCODE_ESC) {
-            onCloseCardClick();
+            onCloseCardClick(i);
           }
         });
       });
       item.addEventListener('keydown', function (evt) {
         if (evt.keyCode === window.variables.KEYCODE_ENTER) {
-          onOpenCardClick(item, i);
+          onOpenCardClick(i);
         }
       });
     });
@@ -69,11 +59,23 @@
 
   var activateMap = function () {
     window.variables.mapElement.classList.remove('map--faded');
-    window.variables.adFormElement.classList.remove('ad-form--disabled');
+    window.variables.adForm.classList.remove('ad-form--disabled');
     window.form.initForm(false);
+    inputAddressElement.value = getLocation();
     addPinOnMap();
   };
+  var inactivateMap = function () {
+    window.form.initForm('disabled');
+    var pinElement = document.querySelectorAll('.pin-open-card');
+    window.variables.mapElement.classList.add('map--faded');
+    mapPinMainElement.style.left = '570px';
+    mapPinMainElement.style.top = '375px';
 
+    Array.from(pinElement).forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+
+  };
   mapPinMainElement.addEventListener('mousedown', function (evt) {
 
     evt.preventDefault();
@@ -93,7 +95,7 @@
         x: evtMove.clientX,
         y: evtMove.clientY
       };
-      inputAddressElement.value = getLocation();
+
       var pinY = mapPinMainElement.offsetTop - shift.y;
       var pinX = mapPinMainElement.offsetLeft - shift.x;
       if (pinY >= mapHeaderHeight && pinY <= mapHeight &&
@@ -129,7 +131,9 @@
 
 
   window.map = {
+    getLocation: getLocation,
     inputAddressElement: inputAddressElement,
-    mapPinMainElement: mapPinMainElement
+    mapPinMainElement: mapPinMainElement,
+    inactivateMap: inactivateMap
   };
 })();
