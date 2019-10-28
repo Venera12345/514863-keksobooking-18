@@ -1,3 +1,4 @@
+'use strict';
 (function () {
   var URL = 'https://js.dump.academy/keksobooking';
 
@@ -6,7 +7,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if(xhr.status === 200) {
+      if (xhr.status === 200) {
         onSuccess(xhr.response);
       } else {
         window.LoadError();

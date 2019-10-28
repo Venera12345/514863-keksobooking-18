@@ -7,9 +7,9 @@
     });
     return dataLoad;
   };
-window.load(onSuccess);
+  window.load(onSuccess);
 
-window.dataLoad = {
-  dataLoad: dataLoad
-};
+  window.dataLoad = {
+    dataLoad: dataLoad
+  };
 })();

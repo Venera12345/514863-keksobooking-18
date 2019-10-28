@@ -103,7 +103,7 @@
     typeRoom.value = 'flat';
     timeIn.value = '12:00';
     roomNumberElement.value = '1';
- };
+  };
   onValidityRoomAndCapacityClick();
   onValidityInputTitleClick();
   initForm('disabled');
@@ -118,11 +118,11 @@
         inputClean();
         var onSucces = document.querySelector('#success').content.querySelector('.success');
         onSucces.cloneNode(true);
-        onSucces.addEventListener('click', function() {
+        onSucces.addEventListener('click', function () {
           onSucces.parentNode.removeChild(onSucces);
         });
-        onSucces.addEventListener('keydown', function() {
-          if(evt.keyCode === window.variables.KEYCODE_ESC){
+        onSucces.addEventListener('keydown', function () {
+          if (evt.keyCode === window.variables.KEYCODE_ESC) {
             onSucces.parentNode.removeChild(onSucces);
           }
 
@@ -131,8 +131,6 @@
         window.variables.mapElement.appendChild(fragment);
         window.map.inactivateMap();
       });
-    } else {
-
     }
   });
 

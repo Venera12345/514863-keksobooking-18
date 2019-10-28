@@ -54,10 +54,10 @@
       element.classList.add('hidden');
       fragment.appendChild(element);
     }
-   return fragment;
+    return fragment;
   };
 
   window.card = {
     createElementCard: createElementCard
-  }
+  };
 })();

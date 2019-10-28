@@ -22,7 +22,7 @@
     var mapCard = document.querySelectorAll('.map__card');
     var onOpenCardClick = function (i) {
       Array.from(mapCard).forEach(function (item) {
-   item.classList.add('hidden');
+        item.classList.add('hidden');
       });
       mapCard[i].classList.remove('hidden');
       mapCard[i].querySelector('.popup__close').addEventListener('click', function () {
@@ -64,18 +64,18 @@
     inputAddressElement.value = getLocation();
     addPinOnMap();
   };
- var inactivateMap = function () {
-  window.form.initForm('disabled');
-  var pinElement = document.querySelectorAll('.pin-open-card');
-  window.variables.mapElement.classList.add('map--faded');
-  mapPinMainElement.style.left = '570px';
-  mapPinMainElement.style.top = '375px';
+  var inactivateMap = function () {
+    window.form.initForm('disabled');
+    var pinElement = document.querySelectorAll('.pin-open-card');
+    window.variables.mapElement.classList.add('map--faded');
+    mapPinMainElement.style.left = '570px';
+    mapPinMainElement.style.top = '375px';
 
-  Array.from(pinElement).forEach(function (item) {
-    item.parentNode.removeChild(item);
-  });
+    Array.from(pinElement).forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
 
- };
+  };
   mapPinMainElement.addEventListener('mousedown', function (evt) {
 
     evt.preventDefault();
