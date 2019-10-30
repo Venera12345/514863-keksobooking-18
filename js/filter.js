@@ -8,7 +8,7 @@
       if (housingType.value === item.offer.type) {
         newData.push(item);
       }
-    })
+    });
     return newData;
   };
   var filter = function (element) {

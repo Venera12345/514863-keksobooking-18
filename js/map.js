@@ -52,7 +52,7 @@
       });
     });
 
-  }
+  };
   var controlFilter = function () {
     window.filter.filter(document.querySelector('#housing-type'));
   };
