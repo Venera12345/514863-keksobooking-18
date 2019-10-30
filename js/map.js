@@ -8,61 +8,62 @@
   var inputAddressElement = document.querySelector('#address');
   var mapPinMainElement = document.querySelector('.map__pin--main');
   var mapPinsElement = document.querySelector('.map__pins');
+  var mapCard = document.querySelector('.map__card');
+  var data = window.dataLoad.dataLoad;
   var getLocation = function () {
     var locationX = +(mapPinMainElement.style.left).slice(0, -2) + PIN_MAIN_WIDTH / 2;
     var locationY = +(mapPinMainElement.style.top).slice(0, -2) + PIN_MAIN_HEIGHT;
 
     return Math.floor(locationX) + ', ' + Math.floor(locationY);
   };
-  var addPinOnMap = function () {
-    var data = window.dataLoad.dataLoad;
-    mapPinsElement.appendChild(window.pin.createElementPin(data));
-    window.variables.mapElement.appendChild(window.card.createElementCard(data));
+  var controlPinMap = function () {
     var pinElement = document.querySelectorAll('.pin-open-card');
-    var mapCard = document.querySelectorAll('.map__card');
     var onOpenCardClick = function (i) {
-      Array.from(mapCard).forEach(function (item) {
-        item.classList.add('hidden');
-      });
-      mapCard[i].classList.remove('hidden');
-      mapCard[i].querySelector('.popup__close').addEventListener('click', function () {
-        onCloseCardClick(i);
+      window.card.createElementCard(data, i);
+      mapCard.classList.remove('hidden');
+      mapCard.querySelector('.popup__close').addEventListener('click', function () {
+        onCloseCardClick();
       });
       document.addEventListener('keydown', function (evt) {
         if (evt.keyCode === window.variables.KEYCODE_ESC) {
-          onCloseCardClick(i);
+          onCloseCardClick();
         }
       });
     };
 
-    var onCloseCardClick = function (i) {
+    var onCloseCardClick = function () {
       document.removeEventListener('keydown', onCloseCardClick);
-      mapCard[i].classList.add('hidden');
+      mapCard.classList.add('hidden');
     };
 
-    Array.from(pinElement).forEach(function (item, i) {
+    Array.from(pinElement).forEach(function (item) {
       item.addEventListener('click', function () {
-        onOpenCardClick(i);
+        onOpenCardClick(item.getAttribute('data-id'));
         document.addEventListener('keydown', function (evt) {
           if (evt.keyCode === window.variables.KEYCODE_ESC) {
-            onCloseCardClick(i);
+            onCloseCardClick();
           }
         });
       });
       item.addEventListener('keydown', function (evt) {
         if (evt.keyCode === window.variables.KEYCODE_ENTER) {
-          onOpenCardClick(i);
+          onOpenCardClick(item.getAttribute('data-id'));
         }
       });
     });
-  };
 
+  }
+  var controlFilter = function () {
+    window.filter.filter(document.querySelector('#housing-type'));
+  };
   var activateMap = function () {
     window.variables.mapElement.classList.remove('map--faded');
     window.variables.adForm.classList.remove('ad-form--disabled');
     window.form.initForm(false);
     inputAddressElement.value = getLocation();
-    addPinOnMap();
+    mapPinsElement.appendChild(window.pin.createElementPin(data));
+    controlPinMap();
+    controlFilter();
   };
   var inactivateMap = function () {
     window.form.initForm('disabled');
@@ -134,6 +135,7 @@
     getLocation: getLocation,
     inputAddressElement: inputAddressElement,
     mapPinMainElement: mapPinMainElement,
-    inactivateMap: inactivateMap
+    inactivateMap: inactivateMap,
+    controlPinMap: controlPinMap
   };
 })();
