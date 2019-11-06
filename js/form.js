@@ -93,7 +93,7 @@
       }
       return inValid;
     });
-  }
+  };
   var onValidityTypeRoomClick = function (type, max, min) {
     if (typeRoom.value === type) {
       inputPrice.placeholder = min;

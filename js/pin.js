@@ -32,11 +32,11 @@
   };
   var controlPinMap = function () {
     var mapCard = document.querySelector('.map__card');
-    var pinElement = document.querySelectorAll('.pin-open-card');
+    var pinElements = document.querySelectorAll('.pin-open-card');
     var data = window.dataLoad.dataLoad;
     var onOpenCardClick = function (i, item) {
-      Array.from(pinElement).forEach(function (item) {
-        item.classList.remove('map__pin--active');
+      Array.from(pinElements).forEach(function (element) {
+        element.classList.remove('map__pin--active');
       });
       window.card.createElementCard(data, i);
       item.classList.add('map__pin--active');
@@ -57,7 +57,7 @@
       mapCard.classList.add('hidden');
     };
 
-    Array.from(pinElement).forEach(function (item) {
+    Array.from(pinElements).forEach(function (item) {
       item.addEventListener('click', function () {
         onOpenCardClick(item.getAttribute('data-id'), item);
         document.addEventListener('keydown', function (evt) {

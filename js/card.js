@@ -1,6 +1,8 @@
 'use strict';
 (function () {
   var cardTemplateElement = document.querySelector('#card').content.querySelector('.map__card');
+  var fragment = document.createDocumentFragment();
+  var elementClone = cardTemplateElement.cloneNode(true);
   var createFeatureElement = function (feature, wrapper) {
     var classElement = '.popup__feature--' + feature;
     var elementClone = cardTemplateElement.querySelector(classElement);
@@ -22,11 +24,6 @@
     var nameType = typeRoom[type];
     return nameType;
   };
-  var fragment = document.createDocumentFragment();
-  var element = cardTemplateElement.cloneNode(true);
-  element.classList.add('hidden');
-  fragment.appendChild(element);
-  window.variables.mapElement.appendChild(fragment);
   var createElementCard = function (data, i) {
     var element = document.querySelector('.map__card');
     var wrapperFeature = element.querySelector('.popup__features');
@@ -56,7 +53,9 @@
     });
     return element;
   };
-
+  elementClone.classList.add('hidden');
+  fragment.appendChild(elementClone);
+  window.variables.mapElement.appendChild(fragment);
   window.card = {
     translateType: translateType,
     createElementCard: createElementCard

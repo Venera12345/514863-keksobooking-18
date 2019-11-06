@@ -38,7 +38,7 @@
       item.checked = false;
     });
     Array.from(mapFilters).forEach(function (item) {
-      item.value = "any";
+      item.value = 'any';
     });
 
     window.form.initForm('disabled');
@@ -104,7 +104,7 @@
     if (evt.keyCode === window.variables.KEYCODE_ENTER) {
       activateMap();
     }
-  }
+  };
   mapPinMainElement.addEventListener('mouseup', activateMap);
   mapPinMainElement.addEventListener('keydown', keydownActivateMap);
   btnReset.addEventListener('click', function () {
