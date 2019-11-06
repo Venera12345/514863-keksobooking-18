@@ -5,8 +5,8 @@
   var elementClone = cardTemplateElement.cloneNode(true);
   var createFeatureElement = function (feature, wrapper) {
     var classElement = '.popup__feature--' + feature;
-    var elementClone = cardTemplateElement.querySelector(classElement);
-    var element = elementClone.cloneNode(true);
+    var elementCloneFeature = cardTemplateElement.querySelector(classElement);
+    var element = elementCloneFeature.cloneNode(true);
     wrapper.appendChild(element);
   };
   var createPhoto = function (src, element) {
