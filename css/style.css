@@ -814,6 +814,7 @@ fieldset {
 
   background-color: #e4e4de;
   border-radius: 5px;
+  overflow: hidden;
 }
 
 .ad-form__element--submit {
@@ -1249,3 +1250,8 @@ fieldset {
   opacity: 0.6;
 }
 
+.notice input.error-input,
+.notice select.error-input {
+  border-color: #ffaa99;
+  box-shadow: 0 0 2px 2px #ff6547;
+}
