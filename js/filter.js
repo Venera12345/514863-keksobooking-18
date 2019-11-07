@@ -1,5 +1,27 @@
 'use strict';
 (function () {
+  var Prices = [{
+    NAME: 'middle',
+    MAX: 50000,
+    MIN: 10000
+  },
+  {
+    NAME: 'low',
+    MAX: 10000,
+    MIN: 0
+  },
+  {
+    NAME: 'high',
+    MAX: 100000,
+    MIN: 50000
+  },
+  {
+    NAME: 'any',
+    MAX: 100000,
+    MIN: 0
+
+  }
+  ];
   var housingType = document.querySelector('#housing-type');
   var housingPrice = document.querySelector('#housing-price');
   var housingRooms = document.querySelector('#housing-rooms');
@@ -19,32 +41,10 @@
   };
   var filterPrice = function (data) {
     var filterData = [];
-    var prices = [{
-      name: 'middle',
-      max: 50000,
-      min: 10000
-    },
-    {
-      name: 'low',
-      max: 10000,
-      min: 0
-    },
-    {
-      name: 'high',
-      max: 100000,
-      min: 50000
-    },
-    {
-      name: 'any',
-      max: 100000,
-      min: 0
-
-    }
-    ];
     data.forEach(function (item) {
-      prices.forEach(function (element) {
-        if (housingPrice.value === element.name) {
-          if (element.max >= item.offer.price && item.offer.price >= element.min) {
+      Prices.forEach(function (element) {
+        if (housingPrice.value === element.NAME) {
+          if (element.MAX >= item.offer.price && item.offer.price >= element.MIN) {
             filterData.push(item);
           }
         }

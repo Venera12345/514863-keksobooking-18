@@ -7,6 +7,7 @@
     MAP_HEADER_HEIGHT: 130,
     KEYCODE_ESC: 27,
     KEYCODE_ENTER: 13,
+    STATUS_SUCCES: 200,
     mapElement: document.querySelector('.map'),
     adFormElements: document.querySelectorAll('.ad-form__element'),
     adFormHeader: document.querySelector('.ad-form-header'),

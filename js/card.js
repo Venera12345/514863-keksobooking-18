@@ -1,5 +1,11 @@
 'use strict';
 (function () {
+  var TypeRoom = {
+    'HOUSE': 'Дом',
+    'FLAT': 'Квартира',
+    'PALACE': 'Дворец',
+    'BUNGALO': 'Бунгало'
+  };
   var cardTemplateElement = document.querySelector('#card').content.querySelector('.map__card');
   var fragment = document.createDocumentFragment();
   var elementClone = cardTemplateElement.cloneNode(true);
@@ -15,20 +21,15 @@
     element.querySelector('.popup__photos').appendChild(photo);
   };
   var translateType = function (type) {
-    var typeRoom = {
-      'house': 'Дом',
-      'flat': 'Квартира',
-      'palace': 'Дворец',
-      'bungalo': 'Бунгало'
-    };
-    var nameType = typeRoom[type];
+    type.toUpperCase();
+    var nameType = TypeRoom[type];
     return nameType;
   };
   var createElementCard = function (data, i) {
     var element = document.querySelector('.map__card');
     var wrapperFeature = element.querySelector('.popup__features');
-    var featureElement = element.querySelectorAll('.popup__feature');
-    var photoElement = element.querySelectorAll('.popup__photo');
+    var featureElements = element.querySelectorAll('.popup__feature');
+    var photoElements = element.querySelectorAll('.popup__photo');
     element.querySelector('.popup__avatar').src = data[i].author.avatar;
     element.querySelector('.popup__avatar').alt = data[i].offer.title;
     element.querySelector('.popup__text--address').textContent = data[i].offer.address;
@@ -39,13 +40,13 @@
     element.querySelector('.popup__text--time').textContent = 'Заезд после' + data[i].offer.checkin + ', выезд до ' + data[i].offer.checkout;
     element.querySelector('.popup__description').textContent = data[i].offer.description;
     element.setAttribute('data-name', data[i].name);
-    Array.from(featureElement).forEach(function (item) {
+    Array.from(featureElements).forEach(function (item) {
       item.parentNode.removeChild(item);
     });
     data[i].offer.features.forEach(function (item) {
       createFeatureElement(item, wrapperFeature);
     });
-    Array.from(photoElement).forEach(function (item) {
+    Array.from(photoElements).forEach(function (item) {
       item.parentNode.removeChild(item);
     });
     data[i].offer.photos.forEach(function (item) {

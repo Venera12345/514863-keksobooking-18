@@ -11,7 +11,7 @@
     });
     return dataLoad;
   };
-  window.load(onSuccess);
+  window.load.load(onSuccess);
 
   window.dataLoad = {
     dataLoad: dataLoad

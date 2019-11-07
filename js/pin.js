@@ -1,9 +1,9 @@
 'use strict';
 (function () {
   var PIN_HEIGHT = 70;
+  var AMOUNT_PIN = 5;
   var pinTemplateElement = document.querySelector('#pin').content;
   var pinElement = pinTemplateElement.querySelector('.map__pin');
-  var AMOUNT_PIN = 5;
   var createElementPin = function (data) {
     var fragment = document.createDocumentFragment();
     var elements = [];
@@ -34,7 +34,7 @@
     var mapCard = document.querySelector('.map__card');
     var pinElements = document.querySelectorAll('.pin-open-card');
     var data = window.dataLoad.dataLoad;
-    var onOpenCardClick = function (i, item) {
+    var onPinClick = function (i, item) {
       Array.from(pinElements).forEach(function (element) {
         element.classList.remove('map__pin--active');
       });
@@ -42,33 +42,33 @@
       item.classList.add('map__pin--active');
       mapCard.classList.remove('hidden');
       mapCard.querySelector('.popup__close').addEventListener('click', function () {
-        onCloseCardClick(item);
+        onCardClick(item);
       });
       document.addEventListener('keydown', function (evt) {
         if (evt.keyCode === window.variables.KEYCODE_ESC) {
-          onCloseCardClick(item);
+          onCardClick(item);
         }
       });
     };
 
-    var onCloseCardClick = function (item) {
+    var onCardClick = function (item) {
       item.classList.remove('map__pin--active');
-      document.removeEventListener('keydown', onCloseCardClick);
+      document.removeEventListener('keydown', onCardClick);
       mapCard.classList.add('hidden');
     };
 
     Array.from(pinElements).forEach(function (item) {
       item.addEventListener('click', function () {
-        onOpenCardClick(item.getAttribute('data-id'), item);
+        onPinClick(item.getAttribute('data-id'), item);
         document.addEventListener('keydown', function (evt) {
           if (evt.keyCode === window.variables.KEYCODE_ESC) {
-            onCloseCardClick(item);
+            onCardClick(item);
           }
         });
       });
       item.addEventListener('keydown', function (evt) {
         if (evt.keyCode === window.variables.KEYCODE_ENTER) {
-          onOpenCardClick(item.getAttribute('data-id'), item);
+          onPinClick(item.getAttribute('data-id'), item);
         }
       });
     });

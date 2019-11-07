@@ -16,9 +16,9 @@
 
     return Math.floor(locationX) + ', ' + Math.floor(locationY);
   };
-  var activateMap = function () {
-    mapPinMainElement.removeEventListener('mouseup', activateMap);
-    mapPinMainElement.removeEventListener('keydown', keydownActivateMap);
+  var onMapPinMouseup = function () {
+    mapPinMainElement.removeEventListener('mouseup', onMapPinMouseup);
+    mapPinMainElement.removeEventListener('keydown', onMapPinkeydown);
     window.variables.mapElement.classList.remove('map--faded');
     window.variables.adForm.classList.remove('ad-form--disabled');
     window.variables.adForm.classList.remove('ad-form--disabled');
@@ -29,12 +29,12 @@
   };
   var inactivateMap = function () {
     var mapFilters = document.querySelectorAll('.map__filter');
-    var checkboxFilters = document.querySelectorAll('.map__checkbox');
-    var checkboxForm = document.querySelectorAll('.feature__checkbox');
-    Array.from(checkboxFilters).forEach(function (item) {
+    var checkboxesFilter = document.querySelectorAll('.map__checkbox');
+    var checkboxesForm = document.querySelectorAll('.feature__checkbox');
+    Array.from(checkboxesFilter).forEach(function (item) {
       item.checked = false;
     });
-    Array.from(checkboxForm).forEach(function (item) {
+    Array.from(checkboxesForm).forEach(function (item) {
       item.checked = false;
     });
     Array.from(mapFilters).forEach(function (item) {
@@ -42,14 +42,14 @@
     });
 
     window.form.initForm('disabled');
-    var pinElement = document.querySelectorAll('.pin-open-card');
+    var pinElements = document.querySelectorAll('.pin-open-card');
     window.variables.mapElement.classList.add('map--faded');
     window.variables.adForm.classList.add('ad-form--disabled');
 
     mapPinMainElement.style.left = '570px';
     mapPinMainElement.style.top = '375px';
 
-    Array.from(pinElement).forEach(function (item) {
+    Array.from(pinElements).forEach(function (item) {
       item.parentNode.removeChild(item);
     });
     var mapCard = document.querySelector('.map__card');
@@ -90,28 +90,28 @@
       document.removeEventListener('mouseup', onMouseUp);
       inputAddressElement.value = getLocation();
       if (dragged) {
-        var onPreventDefaultClick = function (evtClick) {
+        var onPinClick = function (evtClick) {
           evtClick.preventDefault();
-          mapPinMainElement.removeEventListener('click', onPreventDefaultClick);
+          mapPinMainElement.removeEventListener('click', onPinClick);
         };
-        mapPinMainElement.addEventListener('click', onPreventDefaultClick);
+        mapPinMainElement.addEventListener('click', onPinClick);
       }
     };
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-  var keydownActivateMap = function (evt) {
+  var onMapPinkeydown = function (evt) {
     if (evt.keyCode === window.variables.KEYCODE_ENTER) {
-      activateMap();
+      onMapPinMouseup();
     }
   };
-  mapPinMainElement.addEventListener('mouseup', activateMap);
-  mapPinMainElement.addEventListener('keydown', keydownActivateMap);
+  mapPinMainElement.addEventListener('mouseup', onMapPinMouseup);
+  mapPinMainElement.addEventListener('keydown', onMapPinkeydown);
   btnReset.addEventListener('click', function () {
     window.form.inputClean();
     inactivateMap();
-    mapPinMainElement.addEventListener('mouseup', activateMap);
-    mapPinMainElement.addEventListener('keydown', keydownActivateMap);
+    mapPinMainElement.addEventListener('mouseup', onMapPinMouseup);
+    mapPinMainElement.addEventListener('keydown', onMapPinkeydown);
 
   });
 
@@ -121,7 +121,7 @@
     inputAddressElement: inputAddressElement,
     mapPinMainElement: mapPinMainElement,
     inactivateMap: inactivateMap,
-    activateMap: activateMap,
-    keydownActivateMap: keydownActivateMap
+    onMapPinMouseup: onMapPinMouseup,
+    onMapPinkeydown: onMapPinkeydown
   };
 })();
