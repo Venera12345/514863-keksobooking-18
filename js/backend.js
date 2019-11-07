@@ -46,11 +46,5 @@
   window.load = {
     load: load,
     upload: upload
-  }
-
+  };
 })();
-
-
-
-
-
