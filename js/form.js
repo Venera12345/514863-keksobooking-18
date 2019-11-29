@@ -151,27 +151,6 @@
     fragment.appendChild(containerImg);
     blockPhoto.appendChild(fragment);
   };
-  var createOnSucces = function () {
-    var onSucces = document.querySelector('#success').content.querySelector('.success');
-    var elementSucces = onSucces.cloneNode(true);
-    elementSucces.classList.add('success-close');
-    elementSucces.addEventListener('click', onSuccesClick);
-    document.addEventListener('keydown', onSuccesKeydown);
-    fragment.appendChild(elementSucces);
-    window.variables.mapElement.appendChild(fragment);
-
-  };
-  var onSuccesKeydown = function (evt) {
-    if (evt.keyCode === window.variables.KEYCODE_ESC) {
-      onSuccesClick();
-    }
-  };
-  var onSuccesClick = function () {
-    document.removeEventListener('keydown', onSuccesKeydown);
-    document.querySelector('.success-close').parentNode.removeChild(document.querySelector('.success-close'));
-    window.map.mapPinMainElement.addEventListener('mouseup', window.map.onMapPinMouseup);
-    window.map.mapPinMainElement.addEventListener('keydown', window.map.onMapPinkeydown);
-  };
   choseTime(timeIn, timeOut);
   choseTime(timeOut, timeIn);
   onTypeRoomClick(FLAT, MAX_FLAT, MAX_BUNGALO);
@@ -217,7 +196,7 @@
     if (inValidForm) {
       window.load.upload(new FormData(form), function () {
         inputClean();
-        createOnSucces();
+        window.popup.createOnSucces();
         window.map.inactivateMap();
       });
     }

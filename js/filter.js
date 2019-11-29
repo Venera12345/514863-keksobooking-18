@@ -29,50 +29,32 @@
   var housingFeatures = document.querySelectorAll('#housing-features input');
   var mapCard = document.querySelector('.map__card');
   var filterType = function (data) {
-    var filterData = [];
-    data.forEach(function (item) {
-      if (housingType.value === item.offer.type) {
-        filterData.push(item);
-      } else if (housingType.value === 'any') {
-        filterData.push(item);
-      }
+   return data.filter(function (item) {
+      return (housingType.value === item.offer.type) || (housingType.value === 'any');
     });
-    return filterData;
   };
   var filterPrice = function (data) {
-    var filterData = [];
-    data.forEach(function (item) {
+    var newData=[];
+     data.forEach(function (item) {
       Prices.forEach(function (element) {
         if (housingPrice.value === element.NAME) {
           if (element.MAX >= item.offer.price && item.offer.price >= element.MIN) {
-            filterData.push(item);
+            newData.push(item);
           }
         }
       });
     });
-    return filterData;
+ return newData;
   };
   var filterRooms = function (data) {
-    var filterData = [];
-    data.forEach(function (item) {
-      if (+housingRooms.value === item.offer.rooms) {
-        filterData.push(item);
-      } else if (housingRooms.value === 'any') {
-        filterData.push(item);
-      }
+    return data.filter(function (item) {
+ return (+housingRooms.value === item.offer.rooms) || (housingRooms.value === 'any');
     });
-    return filterData;
   };
   var filterGuests = function (data) {
-    var filterData = [];
-    data.forEach(function (item) {
-      if (+housingGuests.value === item.offer.guests) {
-        filterData.push(item);
-      } else if (housingGuests.value === 'any') {
-        filterData.push(item);
-      }
+   return data.filter(function (item) {
+      return (+housingGuests.value === item.offer.guests) || (housingGuests.value === 'any');
     });
-    return filterData;
   };
   var filterFeatures = function (data) {
     var filterData = [];
