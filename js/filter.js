@@ -80,27 +80,29 @@
     }
     return filterData;
   };
-  var filterData = function () {
+  var filterData = window.debounce(function () {
     var newData = filterType(window.dataLoad.dataLoad);
     newData = filterPrice(newData);
     newData = filterRooms(newData);
     newData = filterGuests(newData);
     newData = filterFeatures(newData);
-
-    return newData;
-  };
+    var pinElements = document.querySelectorAll('.pin-open-card');
+    mapCard.classList.add('hidden');
+    Array.from(pinElements).forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+    document.querySelector('.map__pins').appendChild(window.pin.createElementPin(newData));
+    window.pin.controlPinMap();
+  });
   var filter = function (element) {
     element.addEventListener('change', function () {
-      var pinElements = document.querySelectorAll('.pin-open-card');
-      mapCard.classList.add('hidden');
-      Array.from(pinElements).forEach(function (item) {
-        item.parentNode.removeChild(item);
-      });
-      document.querySelector('.map__pins').appendChild(window.pin.createElementPin(filterData()));
-      window.pin.controlPinMap();
+        filterData();
+
     });
   };
-  filter(housingType);
+
+    filter(housingType);
+
   filter(housingRooms);
   filter(housingPrice);
   filter(housingGuests);
